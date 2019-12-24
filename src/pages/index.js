@@ -33,7 +33,6 @@ const IndexPage = ({ data }) => (
     <h1>Captured</h1>
     <p>{data.allSanityCaptured.edges[0].node.title}</p>
     <ul>
-      {console.log("HERE ", data.allSanityCaptured.edges[0].node.images)}
       {data.allSanityCaptured.edges[0].node.images.map(({ title, image }) => (
         <li style={{ width: "300px" }}>
           <h2>{title}</h2>
