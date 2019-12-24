@@ -1,20 +1,46 @@
 import React from "react"
-import { Link } from "gatsby"
+import { Link, graphql } from "gatsby"
+import Image from "gatsby-image"
 
 import Layout from "../components/layout"
-import Image from "../components/image"
 import SEO from "../components/seo"
 
-const IndexPage = () => (
+export const query = graphql`
+  query MyQuery {
+    allSanityCaptured {
+      edges {
+        node {
+          title
+          images {
+            title
+            image {
+              asset {
+                fluid(maxWidth: 300) {
+                  ...GatsbySanityImageFluid
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`
+
+const IndexPage = ({ data }) => (
   <Layout>
     <SEO title="Home" />
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
-      <Image />
-    </div>
-    <Link to="/page-2/">Go to page 2</Link>
+    <h1>Captured</h1>
+    <p>{data.allSanityCaptured.edges[0].node.title}</p>
+    <ul>
+      {console.log("HERE ", data.allSanityCaptured.edges[0].node.images)}
+      {data.allSanityCaptured.edges[0].node.images.map(({ title, image }) => (
+        <li style={{ width: "300px" }}>
+          <h2>{title}</h2>
+          <Image fluid={image.asset.fluid} alt={title} />
+        </li>
+      ))}
+    </ul>
   </Layout>
 )
 
